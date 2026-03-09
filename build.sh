@@ -22,24 +22,29 @@ PROVIDERS_STANDARD=(
 echo "→ Limpiando dist/..."
 rm -rf "$DIST"
 
-# ── Claude Code (estructura plana) ─────────────────────────────────────────
+# ── Claude Code ────────────────────────────────────────────────────────────
+# Genera dos estructuras complementarias:
+#   .claude/skills/  → sistema de skills (context en el system prompt)
+#   .claude/commands/ → slash commands visibles en la UI (/pipeline-health, etc.)
 for entry in "${PROVIDERS_FLAT[@]}"; do
   provider="${entry%%:*}"
   hidden_path="${entry##*:}"
-  target="$DIST/$provider/$hidden_path"
+  skills_target="$DIST/$provider/$hidden_path"
+  commands_target="$DIST/$provider/.claude/commands"
 
-  echo "→ Generando $provider ($target) — estructura plana..."
-  mkdir -p "$target"
+  echo "→ Generando $provider — skills + commands..."
+  mkdir -p "$skills_target" "$commands_target"
 
-  # Skill de contexto general
-  mkdir -p "$target/revops-intelligence"
-  cp "$SOURCE/revops-intelligence/SKILL.md" "$target/revops-intelligence/SKILL.md"
+  # Skill de contexto general (solo en skills/)
+  mkdir -p "$skills_target/revops-intelligence"
+  cp "$SOURCE/revops-intelligence/SKILL.md" "$skills_target/revops-intelligence/SKILL.md"
 
-  # Cada comando se convierte en su propio skill con SKILL.md
+  # Cada comando: skill plano en skills/ Y archivo en commands/
   for cmd in "$SOURCE/revops-intelligence/commands/"*.md; do
     name=$(basename "$cmd" .md)
-    mkdir -p "$target/$name"
-    cp "$cmd" "$target/$name/SKILL.md"
+    mkdir -p "$skills_target/$name"
+    cp "$cmd" "$skills_target/$name/SKILL.md"
+    cp "$cmd" "$commands_target/$name.md"
   done
 done
 
