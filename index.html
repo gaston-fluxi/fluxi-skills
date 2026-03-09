@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxi Skills — Revenue intelligence para AI harnesses</title>
+<meta name="description" content="Skills de Revenue Operations para agentes de IA. 7 comandos que le dan vocabulario de RevOps a Claude Code, Cursor, Gemini CLI y más. Open source, Apache 2.0.">
+<link rel="canonical" href="https://fluxilabs.com/skills">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fluxilabs.com/skills">
+<meta property="og:title" content="Fluxi Skills — Revenue intelligence para AI harnesses">
+<meta property="og:description" content="7 comandos de RevOps para tu agente de IA. Pipeline health, forecasting, churn risk, ICP y más. Gratis, open source.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fluxi Skills — Revenue intelligence para AI harnesses">
+<meta name="twitter:description" content="7 comandos de RevOps para tu agente de IA. Gratis, open source.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23335FFA'/><stop offset='100%25' stop-color='%235DE1E6'/></linearGradient></defs><rect width='100' height='100' rx='18' fill='%230A0E1A'/><text y='.88em' font-size='72' font-family='sans-serif' font-weight='900' fill='url(%23g)' x='12'>F</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root {
+  --bl:   #335FFA;
+  --cy:   #5DE1E6;
+  --card: #0A0E1A;
+  --bor:  #141A2E;
+  --mu:   #8A8FA8;
+  --bg:   #000000;
+  --text: #E8EAF0;
+  --grad: linear-gradient(135deg, #335FFA, #5DE1E6);
+  --f:    'Space Grotesk', sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─────────────────────────────────────────
+   RESET
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--cy); text-decoration: none; transition: opacity .2s; }
+a:hover { opacity: .75; }
+:focus-visible { outline: 2px solid var(--cy); outline-offset: 3px; border-radius: 4px; }
+
+/* ─────────────────────────────────────────
+   LAYOUT
+───────────────────────────────────────── */
+.wrap      { max-width: 720px;  margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+section    { padding: 130px 0; border-bottom: 1px solid var(--bor); }
+
+/* ─────────────────────────────────────────
+   REVEAL  (.rv → .rv.on)
+───────────────────────────────────────── */
+.rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.rv.on { opacity: 1; transform: none; }
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .17s; }
+.d3 { transition-delay: .26s; }
+.d4 { transition-delay: .36s; }
+
+/* Hero elements entrance */
+.he { opacity: 0; transform: translateY(16px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease); }
+.he.on { opacity: 1; transform: none; }
+
+/* ─────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────── */
+.grad {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+code {
+  font-family: var(--f);
+  font-size: .84em;
+  color: var(--cy);
+  background: rgba(51,95,250,.07);
+  border: 1px solid rgba(93,225,230,.1);
+  padding: 1px 7px;
+  border-radius: 5px;
+}
+.sec-kicker {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--mu);
+  opacity: .5;
+  margin-bottom: 16px;
+}
+.sec-kicker.grad-txt {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 1;
+}
+.sec-title {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 900;
+  line-height: 1.07;
+  letter-spacing: -.035em;
+  margin-bottom: 20px;
+}
+.sec-body {
+  font-size: 17px;
+  color: var(--mu);
+  line-height: 1.74;
+  max-width: 520px;
+}
+
+/* ─────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────── */
+.btn-p {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--f); font-size: 15px; font-weight: 700;
+  color: #fff; background: var(--grad);
+  padding: 13px 28px; border-radius: 9999px; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: opacity .2s, transform .22s var(--ease);
+}
+.btn-p:hover { opacity: .86; transform: translateY(-2px); color: #fff; }
+
+.btn-g {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--f); font-size: 15px; font-weight: 600;
+  color: var(--mu); background: transparent;
+  padding: 13px 28px; border-radius: 9999px;
+  border: 1px solid var(--bor); cursor: pointer; text-decoration: none;
+  transition: color .2s, border-color .2s, transform .22s var(--ease);
+}
+.btn-g:hover { color: var(--text); border-color: rgba(93,225,230,.3); opacity: 1; transform: translateY(-1px); }
+
+.arrow-lnk {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 700; color: var(--cy);
+  margin-top: 28px; transition: gap .2s;
+}
+.arrow-lnk:hover { gap: 11px; opacity: 1; }
+
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+#nav {
+  position: fixed; inset: 0 0 auto; z-index: 100;
+  height: 68px; padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background .28s ease, backdrop-filter .28s ease, border-color .28s ease;
+}
+#nav.stuck {
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: var(--bor);
+}
+.nav-logo {
+  font-size: 20px; font-weight: 700; letter-spacing: -.04em;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  text-decoration: none;
+}
+.nav-links { display: flex; align-items: center; gap: 26px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--mu); transition: color .2s; }
+.nav-links a:hover { color: var(--text); opacity: 1; }
+.nav-cta {
+  font-size: 14px; font-weight: 700; color: #fff !important;
+  background: var(--grad); padding: 8px 20px; border-radius: 9999px;
+  transition: opacity .2s, transform .2s;
+}
+.nav-cta:hover { opacity: .86; transform: translateY(-1px); }
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+#hero {
+  padding-top: 172px;
+  padding-bottom: 130px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--bor);
+}
+#hero::before {
+  content: '';
+  position: absolute; top: -160px; left: 50%;
+  transform: translateX(-50%);
+  width: 1000px; height: 700px;
+  background: radial-gradient(ellipse at 50% 40%,
+    rgba(51,95,250,.065) 0%, transparent 55%);
+  pointer-events: none;
+  animation: glow-drift 11s ease-in-out infinite alternate;
+}
+@keyframes glow-drift {
+  from { transform: translateX(-50%) scale(1); }
+  to   { transform: translateX(-50%) scale(1.12) translateY(-28px); }
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--cy);
+  background: rgba(51,95,250,.07);
+  border: 1px solid rgba(93,225,230,.16);
+  padding: 7px 15px; border-radius: 9999px; margin-bottom: 40px;
+}
+.badge-dot {
+  width: 5px; height: 5px; background: var(--cy);
+  border-radius: 50%; flex-shrink: 0;
+  animation: pulse 2.6s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .2; transform: scale(.7); }
+}
+
+.hero-title {
+  font-size: clamp(44px, 7vw, 84px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -.045em;
+  margin-bottom: 30px;
+}
+.hero-desc {
+  font-size: 18px; color: var(--mu); line-height: 1.74;
+  max-width: 520px; margin-bottom: 44px;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; margin-bottom: 56px;
+}
+
+/* Works-with */
+.ww {
+  display: flex; align-items: center;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.ww-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(138,143,168,.35);
+  flex-shrink: 0;
+}
+.ww-logos { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--mu);
+  background: var(--card); border: 1px solid var(--bor);
+  padding: 5px 12px; border-radius: 9999px;
+  transition: border-color .2s, color .2s, transform .2s;
+  text-decoration: none;
+}
+.chip:hover { border-color: rgba(93,225,230,.22); color: var(--text); opacity: 1; transform: translateY(-1px); }
+.chip img { width: 13px; height: 13px; border-radius: 3px; display: block; }
+
+.ver-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 500; color: rgba(138,143,168,.38);
+  background: var(--card); border: 1px solid var(--bor);
+  padding: 5px 12px; border-radius: 7px;
+}
+.ver-tag .dot { color: var(--cy); }
+
+/* ─────────────────────────────────────────
+   BEFORE / AFTER
+───────────────────────────────────────── */
+#ba { padding: 130px 0; border-bottom: 1px solid var(--bor); }
+
+.ba-intro {
+  max-width: 560px;
+  margin-bottom: 56px;
+}
+.ba-intro h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.08;
+  letter-spacing: -.035em; margin-bottom: 16px;
+}
+.ba-intro p { font-size: 16px; color: var(--mu); line-height: 1.72; }
+
+/* ── ba-stage: interactive comparison slider ── */
+.ba-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(93,225,230,.14);
+  box-shadow: 0 0 0 1px rgba(93,225,230,.04), 0 28px 60px rgba(0,0,0,.45);
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ba-card {
+  background: var(--card);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 20px 20px;
+}
+.ba-card.before { border-color: var(--bor); }
+.ba-card.after {
+  position: absolute;
+  inset: 0;
+  border-color: rgba(93,225,230,.18);
+  clip-path: inset(0 50% 0 0 round 18px);
+}
+
+/* vertical scan line */
+.ba-scanline {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(93,225,230,.9) 22%,
+    rgba(93,225,230,.9) 78%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px var(--cy), 0 0 24px rgba(93,225,230,.28);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* drag handle */
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #07091a;
+  border: 1.5px solid rgba(93,225,230,.65);
+  box-shadow: 0 0 14px rgba(93,225,230,.28);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cy);
+  pointer-events: all;
+  cursor: ew-resize;
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.ba-handle:hover,
+.ba-stage.dragging .ba-handle {
+  box-shadow: 0 0 22px rgba(93,225,230,.5);
+  border-color: var(--cy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ba-card.after { clip-path: inset(0 50% 0 0 round 18px); }
+}
+
+.ba-lbl {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ba-lbl.bad  { color: rgba(138,143,168,.3); }
+.ba-lbl.good { color: var(--cy); }
+
+.before-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+.before-list li {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 14px; color: rgba(138,143,168,.45);
+  line-height: 1.5;
+}
+.x-mark { color: rgba(220,60,60,.6); font-size: 12px; flex-shrink: 0; font-weight: 700; }
+
+.chaos-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chaos-tag {
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(200,40,40,.06);
+  border: 1px solid rgba(200,40,40,.1);
+  color: rgba(220,100,100,.55);
+}
+
+/* Terminal */
+.term {
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(20,26,46,.9);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 11px;
+  line-height: 1.72;
+  overflow-x: auto;
+  white-space: pre;
+  margin-bottom: 14px;
+}
+.t-p { color: rgba(51,95,250,.9); font-weight: 700; }
+.t-c { color: var(--cy); font-weight: 700; }
+.t-s { color: rgba(93,225,230,.6); }
+.t-d { color: rgba(20,26,46,1); user-select: none; }
+.t-k { color: #8ca4ff; }
+.t-v { color: #f0c87a; }
+.t-g { color: var(--mu); }
+.t-ok { color: rgba(80,220,130,.75); }
+.t-w { color: rgba(240,140,60,.8); }
+
+.good-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.good-tag {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(51,95,250,.08);
+  border: 1px solid rgba(93,225,230,.16);
+  color: var(--cy);
+}
+
+/* ─────────────────────────────────────────
+   01 — EL ANTÍDOTO
+───────────────────────────────────────── */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+}
+.feat-list { list-style: none; margin-top: 4px; }
+.feat-item {
+  padding: 20px 0;
+  border-top: 1px solid var(--bor);
+}
+.feat-item:last-child { border-bottom: 1px solid var(--bor); }
+.feat-item h4 {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 5px; letter-spacing: -.015em;
+}
+.feat-item p { font-size: 13.5px; color: var(--mu); line-height: 1.62; }
+
+/* ─────────────────────────────────────────
+   02 — FRAMEWORK
+───────────────────────────────────────── */
+.fw-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 10px; margin-top: 56px;
+}
+.fw-card {
+  background: var(--card); border: 1px solid var(--bor);
+  border-radius: 14px; padding: 26px 22px;
+  transition: border-color .2s, transform .22s var(--ease);
+}
+.fw-card:hover { border-color: rgba(93,225,230,.18); transform: translateY(-2px); }
+.fw-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(138,143,168,.3);
+  margin-bottom: 14px;
+}
+.fw-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.02em; }
+.fw-card p  { font-size: 13px; color: var(--mu); line-height: 1.64; }
+
+/* ─────────────────────────────────────────
+   03 — COMANDOS
+───────────────────────────────────────── */
+.cmd-thead {
+  display: grid; grid-template-columns: 196px 1fr;
+  gap: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--bor); margin-top: 48px;
+}
+.cmd-thead span {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(138,143,168,.3);
+}
+.cmd-row {
+  display: grid; grid-template-columns: 196px 1fr;
+  gap: 16px; padding: 20px 0;
+  border-bottom: 1px solid var(--bor);
+  transition: background .12s;
+}
+.cmd-row:last-child { border-bottom: none; }
+.cmd-row:hover { background: rgba(51,95,250,.02); }
+.cmd-pill {
+  font-size: 13px; font-weight: 700; color: var(--cy);
+  background: rgba(51,95,250,.07);
+  border: 1px solid rgba(93,225,230,.13);
+  display: inline-block; padding: 3px 10px;
+  border-radius: 7px; white-space: nowrap;
+  align-self: start;
+}
+.cmd-desc { font-size: 14px; color: var(--mu); line-height: 1.68; }
+
+/* ─────────────────────────────────────────
+   04 — INSTALACIÓN
+───────────────────────────────────────── */
+.tab-row {
+  display: inline-flex;
+  background: var(--card); border: 1px solid var(--bor);
+  border-radius: 10px; padding: 4px; gap: 2px;
+}
+.tab-btn {
+  font-family: var(--f); font-size: 13px; font-weight: 600;
+  color: var(--mu); padding: 8px 16px; background: transparent;
+  border: none; border-radius: 7px; cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.tab-btn[aria-selected="true"] { background: rgba(51,95,250,.14); color: var(--cy); }
+.tab-btn:hover:not([aria-selected="true"]) { background: rgba(255,255,255,.04); color: var(--text); }
+
+.tab-pane { display: none; margin-top: 20px; }
+.tab-pane[data-visible="true"] { display: block; animation: tab-in .22s var(--ease) forwards; }
+@keyframes tab-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.codeblk {
+  background: var(--card); border: 1px solid var(--bor);
+  border-radius: 12px; padding: 18px 22px;
+  font-size: 14px; position: relative; overflow-x: auto; line-height: 1.85;
+}
+.codeblk .pr  { color: rgba(138,143,168,.35); user-select: none; }
+.codeblk .kw  { color: var(--text); }
+.codeblk .arg { color: var(--cy); }
+.copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  font-family: var(--f); font-size: 11px; font-weight: 700;
+  color: var(--mu); background: rgba(255,255,255,.04);
+  border: 1px solid var(--bor); padding: 4px 10px;
+  border-radius: 6px; cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.copy-btn:hover { color: var(--cy); border-color: rgba(93,225,230,.25); }
+.copy-btn.ok    { color: var(--cy); border-color: rgba(93,225,230,.35); }
+.code-note {
+  font-size: 13px; color: rgba(138,143,168,.4);
+  margin-top: 10px; line-height: 1.6;
+}
+.code-note .hl { color: var(--cy); }
+
+.install-sub {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(138,143,168,.3);
+  margin: 44px 0 14px;
+}
+
+/* Tier cards */
+.tier-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-top: 68px;
+}
+.tier-card {
+  background: var(--card); border: 1px solid var(--bor);
+  border-radius: 16px; padding: 30px 26px;
+  display: flex; flex-direction: column;
+}
+.tier-card.featured { border-color: rgba(93,225,230,.18); }
+.tier-name { font-size: 17px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 8px; }
+.tier-badge {
+  display: inline-flex; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 6px; margin-bottom: 22px;
+  width: fit-content;
+}
+.tier-badge.oss { color: var(--cy); background: rgba(51,95,250,.07); border: 1px solid rgba(93,225,230,.15); }
+.tier-badge.pro { color: #f0c87a; background: rgba(240,200,80,.05); border: 1px solid rgba(240,200,80,.15); }
+.tier-list {
+  list-style: none; display: flex; flex-direction: column;
+  gap: 10px; margin-bottom: 26px; flex: 1;
+}
+.tier-list li {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 13.5px; color: var(--mu); line-height: 1.5;
+}
+.tier-list li::before { content: '+'; color: var(--cy); font-weight: 700; flex-shrink: 0; }
+
+/* ─────────────────────────────────────────
+   05 — NOVEDADES
+───────────────────────────────────────── */
+.cl-row {
+  display: grid; grid-template-columns: 160px 1fr;
+  gap: 48px; padding: 44px 0;
+  border-bottom: 1px solid var(--bor);
+}
+.cl-row:last-child { border-bottom: none; }
+.cl-ver  { font-size: 14px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 4px; }
+.cl-date { font-size: 13px; color: rgba(138,143,168,.4); }
+.cl-lbl {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 6px; margin-top: 10px;
+  color: var(--cy); background: rgba(51,95,250,.07);
+  border: 1px solid rgba(93,225,230,.14);
+}
+.cl-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.cl-items li {
+  display: flex; gap: 10px; font-size: 14px;
+  color: var(--mu); line-height: 1.6;
+}
+.cl-items li::before { content: '+'; color: var(--cy); font-weight: 700; flex-shrink: 0; }
+
+/* ─────────────────────────────────────────
+   06 — FAQ
+───────────────────────────────────────── */
+.faq-wrap { max-width: 660px; margin-top: 56px; }
+.faq-item { border-bottom: 1px solid var(--bor); }
+.faq-q {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 16px;
+  padding: 22px 0; cursor: pointer;
+  font-size: 16px; font-weight: 700;
+  color: var(--text); background: none; border: none;
+  width: 100%; text-align: left; font-family: var(--f);
+  letter-spacing: -.015em;
+  transition: color .2s;
+}
+.faq-q:hover { color: var(--cy); }
+.faq-ic {
+  width: 22px; height: 22px;
+  border: 1px solid var(--bor); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; line-height: 1; color: var(--mu); flex-shrink: 0;
+  transition: transform .3s ease, border-color .2s, color .2s;
+}
+.faq-item.open .faq-ic {
+  transform: rotate(45deg);
+  border-color: rgba(93,225,230,.28); color: var(--cy);
+}
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .36s ease, opacity .3s ease; opacity: 0;
+}
+.faq-a.open { max-height: 360px; opacity: 1; }
+.faq-a-in {
+  padding-bottom: 24px; font-size: 15px;
+  color: var(--mu); line-height: 1.8;
+}
+
+/* ─────────────────────────────────────────
+   CTA
+───────────────────────────────────────── */
+#cta { padding: 130px 0; border-bottom: 1px solid var(--bor); }
+.cta-inner { max-width: 580px; }
+.cta-title {
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 900; line-height: 1.07;
+  letter-spacing: -.04em; margin-bottom: 20px;
+}
+.cta-body {
+  font-size: 16px; color: var(--mu);
+  line-height: 1.74; margin-bottom: 34px;
+}
+.cta-acts { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer { padding: 52px 0; }
+.footer-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 24px;
+}
+.footer-brand { display: flex; flex-direction: column; gap: 4px; }
+.footer-logo {
+  font-size: 17px; font-weight: 700; letter-spacing: -.04em;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  text-decoration: none;
+}
+.footer-url { font-size: 12px; color: rgba(138,143,168,.32); }
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: rgba(138,143,168,.38); transition: color .2s; }
+.footer-links a:hover { color: var(--mu); opacity: 1; }
+.footer-cr { font-size: 12px; color: rgba(138,143,168,.28); }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 860px) {
+  .two-col     { grid-template-columns: 1fr; gap: 52px; }
+
+  .fw-grid     { grid-template-columns: 1fr 1fr; }
+  .cl-row      { grid-template-columns: 1fr; gap: 16px; }
+  .tier-grid   { grid-template-columns: 1fr; }
+  #nav .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  section      { padding: 88px 0; }
+  #hero        { padding-top: 120px; }
+  .cmd-thead   { display: none; }
+  .cmd-row     { grid-template-columns: 1fr; gap: 7px; padding: 16px 0; }
+  .fw-grid     { grid-template-columns: 1fr; }
+  .tab-row     { width: 100%; }
+}
+
+/* ─────────────────────────────────────────
+   PREFERS-REDUCED-MOTION
+───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .rv, .he { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Navegación principal">
+  <a href="#hero" class="nav-logo">fluxi</a>
+  <ul class="nav-links" role="list">
+    <li><a href="#antidoto">Skills</a></li>
+    <li><a href="#comandos">Comandos</a></li>
+    <li><a href="#instalacion">Instalación</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="https://fluxilabs.com/demo" class="nav-cta">Agendar Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+
+    <div class="hero-badge he">
+      <span class="badge-dot" aria-hidden="true"></span>
+      Skill open-source &middot; v0.1.0
+    </div>
+
+    <h1 class="hero-title he" id="hero-title">
+      El lenguaje de<br>
+      <span class="grad">Revenue Intelligence</span><br>
+      para tu AI.
+    </h1>
+
+    <p class="hero-desc he">
+      Las buenas decisiones de revenue requieren vocabulario de RevOps.
+      Fluxi te da los comandos que ponen ese lenguaje en manos de tu AI
+      harness &mdash; sin dashboards nuevos, sin conectores.
+    </p>
+
+    <div class="hero-actions he">
+      <a href="#instalacion" class="btn-p">Instalar gratis</a>
+      <a href="https://fluxilabs.com/demo" class="btn-g">Agendar Demo &rarr;</a>
+    </div>
+
+    <div class="ww he">
+      <span class="ww-label">Funciona con</span>
+      <div class="ww-logos">
+        <span class="chip">
+          <img src="https://img.logo.dev/anthropic.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">
+          Claude Code
+        </span>
+        <span class="chip">
+          <img src="https://img.logo.dev/cursor.sh?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">
+          Cursor
+        </span>
+        <span class="chip">
+          <img src="https://img.logo.dev/google.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">
+          Gemini CLI
+        </span>
+        <span class="chip">
+          <img src="https://img.logo.dev/openai.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">
+          Codex CLI
+        </span>
+        <span class="chip">
+          <img src="https://img.logo.dev/github.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">
+          VS Code Copilot
+        </span>
+        <span class="chip">Kiro</span>
+      </div>
+    </div>
+
+    <div class="ver-tag he">
+      <span class="dot" aria-hidden="true">&triangleright;</span>
+      v0.1.0 &mdash; 7 comandos &middot; 5 providers &middot; Apache 2.0
+    </div>
+
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section id="ba">
+  <div class="wrap-wide">
+
+    <div class="ba-intro rv">
+      <span class="sec-kicker grad-txt">La diferencia</span>
+      <h2>RevOps manual vs.<br><span class="grad">Con Fluxi Skills</span></h2>
+      <p>El mismo análisis que antes tomaba horas ocurre en un comando.</p>
+    </div>
+
+    <div class="ba-stage" id="ba-grid">
+
+      <!-- BEFORE -->
+      <div class="ba-card before">
+        <div class="ba-lbl bad">&#215;&nbsp; RevOps Manual</div>
+        <ul class="before-list">
+          <li><span class="x-mark">&times;</span>Exports manuales del CRM cada semana</li>
+          <li><span class="x-mark">&times;</span>Forecasting a ojo sin win rate ajustado</li>
+          <li><span class="x-mark">&times;</span>Pipeline reviews en Google Sheets</li>
+          <li><span class="x-mark">&times;</span>AI sin contexto da análisis genérico</li>
+          <li><span class="x-mark">&times;</span>Datos dispersos sin fuente de verdad</li>
+        </ul>
+        <div class="chaos-row">
+          <span class="chaos-tag">Exportar CSV otra vez</span>
+          <span class="chaos-tag">¿Dónde está ese reporte?</span>
+          <span class="chaos-tag">Confiá en mí, lo cerramos</span>
+        </div>
+      </div>
+
+      <!-- SCAN LINE + HANDLE -->
+      <div class="ba-scanline">
+        <div class="ba-handle" role="slider" aria-label="Arrastrá para comparar" aria-valuemin="2" aria-valuemax="98" aria-valuenow="50">
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+            <path d="M4 5H1M1 5L3 3M1 5L3 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 5H13M13 5L11 3M13 5L11 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- AFTER -->
+      <div class="ba-card after">
+        <div class="ba-lbl good">&#10003;&nbsp; Con Fluxi Skills</div>
+        <div class="term" role="img" aria-label="Salida del comando /pipeline-health"><span class="t-p">&gt; </span><span class="t-c">/pipeline-health</span>
+<span class="t-s">Pipeline Health &mdash; Diagnóstico</span>
+<span class="t-d">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
+<span class="t-g">Coverage ratio </span><span class="t-v">3.8&times;</span>   <span class="t-ok">Saludable</span>
+<span class="t-g">Pipeline total  </span><span class="t-v">&euro;2.4M</span>   <span class="t-g">47 deals activos</span>
+<span class="t-g">Velocity        </span><span class="t-v">&euro;18.2K/día</span>  <span class="t-ok">+12% vs. Q ant.</span>
+
+<span class="t-s">Alertas &mdash; &euro;380K en riesgo</span>
+<span class="t-g">&rarr;  Acme Corp &middot; 34 días sin actividad &middot; &euro;120K</span>
+<span class="t-g">&rarr;  Beta SRL  &middot; champion cambió de rol &middot; &euro;85K</span>
+
+<span class="t-g">Acción: re-qualify ambos esta semana</span></div>
+        <div class="good-row">
+          <span class="good-tag">Un comando</span>
+          <span class="good-tag">Análisis estructurado</span>
+          <span class="good-tag">Contexto RevOps</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 01 — EL ANTÍDOTO -->
+<section id="antidoto" aria-labelledby="antidoto-title">
+  <div class="wrap">
+    <div class="two-col">
+
+      <div class="rv">
+        <span class="sec-kicker">01</span>
+        <h2 class="sec-title" id="antidoto-title">El Antídoto</h2>
+        <p class="sec-body">
+          Sin vocabulario de RevOps, tu asistente de IA hace análisis
+          genérico. No sabe qué es un coverage ratio, cómo ajustar un
+          forecast por win rate real, ni cómo calcular el health score
+          de una cuenta. Fluxi inyecta ese vocabulario: frameworks
+          curados, anti-patrones y criterios de decisión listos para usar.
+        </p>
+        <a href="https://github.com/fluxilabs/fluxi/issues" class="arrow-lnk">¿Falta un framework? Sugerilo &rarr;</a>
+      </div>
+
+      <div class="rv d1">
+        <ul class="feat-list">
+          <li class="feat-item">
+            <h4>Gestión de Pipeline</h4>
+            <p>Ratios de cobertura, velocity, conversión por etapa y deals estancados. Benchmarks B2B SaaS incluidos.</p>
+          </li>
+          <li class="feat-item">
+            <h4>Revenue Forecasting</h4>
+            <p>Pipeline ponderado ajustado por win rate real. Tres escenarios: peor caso, base y mejor caso.</p>
+          </li>
+          <li class="feat-item">
+            <h4>Lead Scoring</h4>
+            <p>Modelo multicritério Fit &times; Engagement &times; Timing. Umbrales de acción por tier para SDRs.</p>
+          </li>
+          <li class="feat-item">
+            <h4>Anti-Patrones</h4>
+            <p>Los 7 errores más comunes en RevOps que el AI aprende a detectar y evitar automáticamente.</p>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 02 — EL FRAMEWORK -->
+<section id="framework" aria-labelledby="framework-title">
+  <div class="wrap">
+
+    <div class="rv">
+      <span class="sec-kicker">02</span>
+      <h2 class="sec-title" id="framework-title">El Framework</h2>
+      <p class="sec-body">
+        Un skill con profundidad real de RevOps, más 7 comandos que
+        cubren todo el stack de inteligencia de revenue.
+      </p>
+    </div>
+
+    <div class="fw-grid">
+      <div class="fw-card rv d1">
+        <div class="fw-num">01 / Skill</div>
+        <h3>revops-intelligence</h3>
+        <p>El skill central. Instala vocabulario, frameworks y anti-patrones de RevOps en tu AI harness.</p>
+      </div>
+      <div class="fw-card rv d2">
+        <div class="fw-num">02 / Comandos</div>
+        <h3>7 Comandos RevOps</h3>
+        <p>ICP, pipeline health, forecasting, churn risk, funnel, lead scoring y revisión de deals.</p>
+      </div>
+      <div class="fw-card rv d3">
+        <div class="fw-num">03 / Integración</div>
+        <h3>Listo para CRM</h3>
+        <p>Funciona con exports CSV de HubSpot, Salesforce y Pipedrive. Tus datos se analizan localmente.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 03 — COMANDOS -->
+<section id="comandos" aria-labelledby="comandos-title">
+  <div class="wrap">
+
+    <div class="rv">
+      <span class="sec-kicker">03</span>
+      <h2 class="sec-title" id="comandos-title">Comandos</h2>
+      <p class="sec-body">Siete comandos que cubren todo el stack de inteligencia de revenue.</p>
+    </div>
+
+    <div class="rv d1">
+      <div class="cmd-thead" aria-hidden="true">
+        <span>Comando</span>
+        <span>Qué hace</span>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/icp-market</span></div>
+        <p class="cmd-desc">Define tu Perfil de Cliente Ideal a partir de deals ganados y estima TAM&nbsp;/&nbsp;SAM&nbsp;/&nbsp;SOM. Scorecard ICP con criterios de calificación y señales de compra.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/pipeline-health</span></div>
+        <p class="cmd-desc">Coverage ratio, velocity, conversión por etapa, deals estancados y alertas por rep. Acciones priorizadas para las próximas 48&ndash;72 horas.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/forecast</span></div>
+        <p class="cmd-desc">Pronóstico con tres escenarios ajustado por win rate real del equipo. Gap analysis y plan para cerrar el shortfall.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/churn-risk</span></div>
+        <p class="cmd-desc">Health scores por cuenta en 5 dimensiones. Señales de alerta temprana y playbooks de retención priorizados por ARR en riesgo.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/funnel-diagnosis</span></div>
+        <p class="cmd-desc">Conversión de punta a punta, time-in-stage, análisis de loss reasons y causa raíz por etapa.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/lead-scoring</span></div>
+        <p class="cmd-desc">Modelo Fit &times; Engagement &times; Timing. Tiers A&ndash;D con SLA de acción. Calibrado con datos históricos de deals ganados.</p>
+      </div>
+      <div class="cmd-row">
+        <div><span class="cmd-pill">/deal-review</span></div>
+        <p class="cmd-desc">Revisión MEDDPICC con score de completitud, probabilidad ajustada por stakeholder y próximos pasos críticos en 72 horas.</p>
+      </div>
+
+      <div style="margin-top:32px;">
+        <a href="/cheatsheet" class="arrow-lnk">Ver cheatsheet de referencia rápida &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 — INSTALACIÓN -->
+<section id="instalacion" aria-labelledby="instalacion-title">
+  <div class="wrap">
+
+    <div class="rv">
+      <span class="sec-kicker">04</span>
+      <h2 class="sec-title" id="instalacion-title">Instalación</h2>
+      <p class="sec-body">Un comando. Todos los providers. Auto-detecta tu AI harness.</p>
+    </div>
+
+    <div class="rv d1" style="margin-top:48px;">
+
+      <div role="tablist" aria-label="Métodos de instalación" class="tab-row">
+        <button role="tab" id="tb-all"    aria-selected="true"  aria-controls="tp-all"    class="tab-btn">Todas las herramientas</button>
+        <button role="tab" id="tb-claude" aria-selected="false" aria-controls="tp-claude" class="tab-btn">Claude Code</button>
+        <button role="tab" id="tb-manual" aria-selected="false" aria-controls="tp-manual" class="tab-btn">Manual</button>
+      </div>
+
+      <div role="tabpanel" id="tp-all" aria-labelledby="tb-all" data-visible="true">
+        <div class="codeblk">
+          <button class="copy-btn" data-copy="npx skills add fluxilabs/fluxi">Copiar</button>
+          <span class="pr">$ </span><span class="kw">npx skills add </span><span class="arg">fluxilabs/fluxi</span>
+        </div>
+        <p class="code-note">Auto-detecta tu AI harness e instala los archivos en la ubicación correcta.</p>
+      </div>
+
+      <div role="tabpanel" id="tp-claude" aria-labelledby="tb-claude" hidden>
+        <div class="codeblk">
+          <button class="copy-btn" data-copy="cp -r dist/claude-code/.claude ~/.claude">Copiar</button>
+          <div style="line-height:2">
+            <span class="pr"># Clonar el repositorio</span><br>
+            <span class="pr">$ </span><span class="kw">git clone </span><span class="arg">https://github.com/fluxilabs/fluxi</span><br><br>
+            <span class="pr"># Copiar al directorio global de Claude</span><br>
+            <span class="pr">$ </span><span class="kw">cp -r </span><span class="arg">dist/claude-code/.claude</span><span class="kw"> ~/.claude</span>
+          </div>
+        </div>
+        <p class="code-note">También podés copiar a <span class="hl">/tu-proyecto/.claude</span> para instalación por proyecto.</p>
+      </div>
+
+      <div role="tabpanel" id="tp-manual" aria-labelledby="tb-manual" hidden>
+        <div class="codeblk">
+          <div style="line-height:2">
+            <span class="pr"># Cursor</span><br>
+            <span class="pr">$ </span><span class="kw">cp -r </span><span class="arg">dist/cursor/.cursor</span><span class="kw">     /tu-proyecto/</span><br>
+            <span class="pr"># Gemini CLI</span><br>
+            <span class="pr">$ </span><span class="kw">cp -r </span><span class="arg">dist/gemini/.gemini</span><span class="kw">     ~/</span><br>
+            <span class="pr"># Codex CLI</span><br>
+            <span class="pr">$ </span><span class="kw">cp -r </span><span class="arg">dist/codex/.codex</span><span class="kw">      ~/</span><br>
+            <span class="pr"># Kiro &middot; VS Code Copilot</span><br>
+            <span class="pr">$ </span><span class="kw">cp -r </span><span class="arg">dist/agents/.agents</span><span class="kw">    /tu-proyecto/</span>
+          </div>
+        </div>
+        <p class="code-note">O descargá el <a href="https://github.com/fluxilabs/fluxi/releases">ZIP desde GitHub Releases</a>.</p>
+      </div>
+
+      <div class="install-sub">Providers soportados</div>
+      <div class="ww-logos">
+        <span class="chip"><img src="https://img.logo.dev/anthropic.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">Claude Code</span>
+        <span class="chip"><img src="https://img.logo.dev/cursor.sh?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">Cursor</span>
+        <span class="chip"><img src="https://img.logo.dev/google.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">Gemini CLI</span>
+        <span class="chip"><img src="https://img.logo.dev/openai.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">Codex CLI</span>
+        <span class="chip"><img src="https://img.logo.dev/github.com?token=pk_dtRHfeTyRzG5zZInUc65Xw&size=32" alt="">VS Code Copilot</span>
+        <span class="chip">Kiro</span>
+      </div>
+
+    </div>
+
+    <!-- Open source vs Pro -->
+    <div class="rv d2">
+      <div class="tier-grid">
+        <div class="tier-card">
+          <div class="tier-name">Fluxi Skills</div>
+          <span class="tier-badge oss">Open Source &middot; Apache 2.0</span>
+          <ul class="tier-list">
+            <li>Skill <code>revops-intelligence</code> completo</li>
+            <li>7 comandos con frameworks reales de RevOps</li>
+            <li>Anti-patrones y benchmarks B2B SaaS</li>
+            <li>Análisis con exports CSV</li>
+            <li>5 providers soportados</li>
+            <li>Cheatsheet de referencia rápida</li>
+          </ul>
+          <a href="#instalacion" class="btn-g" style="width:100%;justify-content:center;">Instalar gratis</a>
+        </div>
+        <div class="tier-card featured">
+          <div class="tier-name">Fluxi Pro</div>
+          <span class="tier-badge pro">Próximamente</span>
+          <ul class="tier-list">
+            <li>Todo lo de Fluxi Skills</li>
+            <li>Integración CRM en vivo (HubSpot, Salesforce)</li>
+            <li>Alertas automáticas de churn y pipeline</li>
+            <li>Dashboards de revenue compartibles</li>
+            <li>Análisis multi-agente y cruzado de fuentes</li>
+            <li>Soporte prioritario y onboarding</li>
+          </ul>
+          <a href="https://fluxilabs.com/demo" class="btn-p" style="width:100%;justify-content:center;">Agendar Demo &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 05 — NOVEDADES -->
+<section id="novedades" aria-labelledby="novedades-title">
+  <div class="wrap">
+
+    <div class="rv">
+      <span class="sec-kicker">05</span>
+      <h2 class="sec-title" id="novedades-title">Novedades</h2>
+    </div>
+
+    <div class="rv d1">
+      <div class="cl-row">
+        <div>
+          <div class="cl-ver">v0.1.0</div>
+          <div class="cl-date">Marzo 2026</div>
+          <div class="cl-lbl">Lanzamiento inicial</div>
+        </div>
+        <ul class="cl-items">
+          <li>Lanzamiento del skill <code>revops-intelligence</code> con 5 frameworks completos</li>
+          <li>7 comandos: <code>/icp-market</code>, <code>/pipeline-health</code>, <code>/forecast</code>, <code>/churn-risk</code>, <code>/funnel-diagnosis</code>, <code>/lead-scoring</code>, <code>/deal-review</code></li>
+          <li>Soporte para Claude Code, Cursor, Gemini CLI, Codex CLI, VS Code Copilot y Kiro</li>
+          <li>Revisión de deals con framework MEDDPICC y ajuste de probabilidad por stakeholder</li>
+          <li>Health scores de churn en 5 dimensiones con playbooks por nivel de riesgo</li>
+          <li>Build script que genera <code>dist/</code> para todos los providers desde una sola fuente</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 06 — FAQ -->
+<section id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+
+    <div class="rv">
+      <span class="sec-kicker">06</span>
+      <h2 class="sec-title" id="faq-title">Preguntas Frecuentes</h2>
+    </div>
+
+    <div class="faq-wrap rv d1">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Cuál es la diferencia entre Fluxi Skills y Fluxi Pro?
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-in">
+            <strong style="color:var(--text)">Fluxi Skills</strong> es open-source y gratuito: instalás los skills en tu AI harness y los usás con archivos exportados de tu CRM. Funciona hoy, sin registro. <strong style="color:var(--text)">Fluxi Pro</strong> agrega integración en vivo, alertas automáticas, dashboards compartibles y soporte prioritario. Próximamente.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Necesito API key propia o una cuenta de Fluxi?
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-in">
+            No. Fluxi Skills son archivos de configuración que se instalan en tu AI harness existente. Usás la API key que ya tenés. Fluxi no requiere cuenta, no manda datos a ningún servidor propio.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Qué formatos de datos soportan los comandos?
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-in">
+            Los comandos funcionan con cualquier dato que le pegues al chat: CSV de HubSpot, Salesforce, Pipedrive, o tu descripción del estado del pipeline. No hay conector &mdash; vos traés los datos, el skill sabe qué hacer con ellos.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Dónde van los archivos instalados?
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-in">
+            <code>npx skills add fluxilabs/fluxi</code> auto-detecta y coloca los archivos correctamente. Para Claude Code van a <code>~/.claude/skills/</code> o <code>.claude/skills/</code> en el proyecto. Para Cursor, a <code>.cursor/skills/</code>. Los paths exactos están documentados en el README.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Puedo contribuir o proponer nuevos comandos?
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-in">
+            Sí. Apache 2.0 &mdash; abrís un PR con tu propuesta en <code>source/skills/</code>, ejecutás <code>./build.sh</code> para generar <code>dist/</code>, y lo sometés a revisión. Los comandos que se aceptan tienen contenido real y completo, no placeholders.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="wrap">
+    <div class="cta-inner rv">
+      <h2 class="cta-title">Trabajá con nosotros</h2>
+      <p class="cta-body">
+        Ayudamos a equipos B2B a construir operaciones de revenue
+        nativas en IA: conectando herramientas, eliminando trabajo
+        manual y automatizando los workflows que impulsan el crecimiento.
+      </p>
+      <div class="cta-acts">
+        <a href="https://fluxilabs.com/demo" class="btn-p">Agendar Demo &rarr;</a>
+        <a href="mailto:ricky@fluxilabs.com" class="btn-g">Contactanos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap-wide">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#hero" class="footer-logo">fluxi</a>
+        <div class="footer-url">fluxilabs.com</div>
+      </div>
+      <nav class="footer-links" aria-label="Links del footer">
+        <a href="#antidoto">Skills</a>
+        <a href="#comandos">Comandos</a>
+        <a href="/cheatsheet">Cheatsheet</a>
+        <a href="#instalacion">Instalación</a>
+        <a href="#novedades">Changelog</a>
+        <a href="https://github.com/fluxilabs/fluxi">GitHub</a>
+      </nav>
+      <div class="footer-cr">&copy; 2026 Fluxi Labs</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Nav ───────────────────────── */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('stuck', window.scrollY > 10);
+  }, { passive: true });
+
+  /* ── Hero entrance ─────────────── */
+  var hels = document.querySelectorAll('.he');
+  if (reduced) {
+    hels.forEach(function (el) { el.classList.add('on'); });
+  } else {
+    hels.forEach(function (el, i) {
+      setTimeout(function () { el.classList.add('on'); }, 60 + i * 100);
+    });
+  }
+
+  /* ── Reveal (.rv) ──────────────── */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+  if (reduced) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('on'); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  }
+
+  /* ── Before/After (hover comparison) ──────────────── */
+  var bag = document.getElementById('ba-grid');
+  if (bag) {
+    var baAfter  = bag.querySelector('.ba-card.after');
+    var baScan   = bag.querySelector('.ba-scanline');
+    var baHandle = bag.querySelector('.ba-handle');
+
+    function baSet(pct) {
+      pct = Math.max(2, Math.min(98, pct));
+      baAfter.style.clipPath = 'inset(0 ' + (100 - pct).toFixed(1) + '% 0 0 round 18px)';
+      baScan.style.left = 'calc(' + pct.toFixed(1) + '% - 1px)';
+      if (baHandle) baHandle.setAttribute('aria-valuenow', Math.round(pct));
+    }
+
+    function baPct(e) {
+      var r = bag.getBoundingClientRect();
+      var x = e.touches ? e.touches[0].clientX : e.clientX;
+      return ((x - r.left) / r.width) * 100;
+    }
+
+    bag.addEventListener('mousemove', function (e) { baSet(baPct(e)); });
+    bag.addEventListener('touchstart', function (e) { baSet(baPct(e)); }, { passive: true });
+    bag.addEventListener('touchmove',  function (e) { baSet(baPct(e)); }, { passive: true });
+  }
+
+  /* ── Cmd rows stagger ──────────── */
+  document.querySelectorAll('.cmd-row').forEach(function (row, i) {
+    row.classList.add('rv');
+    row.style.transitionDelay = (i * 0.04) + 's';
+    reduced ? row.classList.add('on') : io.observe(row);
+  });
+
+  /* ── Tabs (ARIA) ───────────────── */
+  var tabBtns = document.querySelectorAll('[role="tab"]');
+
+  function activateTab(btn) {
+    tabBtns.forEach(function (b) {
+      b.setAttribute('aria-selected', 'false');
+      var p = document.getElementById(b.getAttribute('aria-controls'));
+      if (p) { p.setAttribute('hidden', ''); p.removeAttribute('data-visible'); }
+    });
+    btn.setAttribute('aria-selected', 'true');
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (panel) { panel.removeAttribute('hidden'); panel.setAttribute('data-visible', 'true'); }
+  }
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { activateTab(this); });
+    btn.addEventListener('keydown', function (e) {
+      var tabs = Array.from(tabBtns), idx = tabs.indexOf(this);
+      if (e.key === 'ArrowRight') { e.preventDefault(); var n = tabs[(idx+1) % tabs.length]; activateTab(n); n.focus(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); var p = tabs[(idx-1+tabs.length) % tabs.length]; activateTab(p); p.focus(); }
+    });
+  });
+
+  /* ── Copy buttons ──────────────── */
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = this.getAttribute('data-copy') ||
+        (this.closest('.codeblk') || {}).innerText.replace(/^Copiar\n?/, '').trim();
+      navigator.clipboard.writeText(text || '').then(function () {
+        var orig = btn.textContent;
+        btn.textContent = 'Copiado';
+        btn.classList.add('ok');
+        setTimeout(function () { btn.textContent = orig; btn.classList.remove('ok'); }, 2000);
+      });
+    });
+  });
+
+  /* ── FAQ ───────────────────────── */
+  document.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = this.parentElement;
+      var ans  = item.querySelector('.faq-a');
+      var open = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (x) {
+        x.classList.remove('open');
+        x.querySelector('.faq-a').classList.remove('open');
+        x.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('open');
+        ans.classList.add('open');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+}());
+</script>
+</body>
+</html>
