@@ -4,7 +4,7 @@ description: >
   Diagnóstico completo del pipeline de ventas: cobertura, velocity, conversión
   por etapa, deals estancados y alertas de riesgo. Produce un dashboard de
   salud con acciones priorizadas.
-user-invokable: true
+user-invocable: true
 ---
 
 # /pipeline-health — Diagnóstico de Pipeline

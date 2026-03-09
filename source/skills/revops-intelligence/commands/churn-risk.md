@@ -4,7 +4,7 @@ description: >
   Identifica cuentas en riesgo de churn con health scores, señales de alerta
   temprana y playbooks de retención priorizados por nivel de riesgo y valor
   de la cuenta.
-user-invokable: true
+user-invocable: true
 ---
 
 # /churn-risk — Churn Risk Assessment

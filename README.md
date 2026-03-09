@@ -152,7 +152,7 @@ fluxi-skills/
 ├── source/
 │   └── skills/
 │       └── revops-intelligence/
-│           ├── SKILL.md              # Definición del skill y contexto RevOps
+│           ├── SKILL.md              # Contexto general de RevOps
 │           └── commands/
 │               ├── pipeline-health.md
 │               ├── forecast.md
@@ -162,12 +162,18 @@ fluxi-skills/
 │               ├── lead-scoring.md
 │               └── deal-review.md
 └── dist/
-    ├── claude-code/.claude/skills/revops-intelligence/
+    ├── claude-code/.claude/skills/   # Estructura plana (un dir por skill)
+    │   ├── revops-intelligence/SKILL.md
+    │   ├── pipeline-health/SKILL.md
+    │   ├── forecast/SKILL.md
+    │   └── ...
     ├── cursor/.cursor/skills/revops-intelligence/
     ├── gemini/.gemini/skills/revops-intelligence/
     ├── codex/.codex/skills/revops-intelligence/
     └── agents/.agents/skills/revops-intelligence/
 ```
+
+> **Nota sobre Claude Code**: Claude Code requiere que cada skill invocable sea su propio directorio con `SKILL.md`. El `build.sh` genera automáticamente esta estructura plana para `dist/claude-code/`. Los demás providers mantienen la estructura original.
 
 ---
 

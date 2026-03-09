@@ -4,7 +4,7 @@ description: >
   Revisión estructurada de deal individual: validación de MEDDPICC, riesgos
   específicos por stakeholder, próximos pasos críticos y probabilidad de cierre
   ajustada. Para pipeline reviews con managers o autoevaluación del AE.
-user-invokable: true
+user-invocable: true
 ---
 
 # /deal-review — Deal Review Estructurado

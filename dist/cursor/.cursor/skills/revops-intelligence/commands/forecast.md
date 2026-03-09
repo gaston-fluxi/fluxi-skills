@@ -4,7 +4,7 @@ description: >
   Genera un pronóstico de revenue con tres escenarios (peor caso, caso base,
   mejor caso), gap analysis vs. objetivo, y recomendaciones específicas para
   cerrar el gap. Ajusta por win rate histórico real del equipo.
-user-invokable: true
+user-invocable: true
 ---
 
 # /forecast — Revenue Forecast

@@ -4,7 +4,7 @@ description: >
   Define el Perfil de Cliente Ideal (ICP) a partir de deals cerrados y estima el
   tamaño de mercado (TAM/SAM/SOM). Genera un scorecard ICP con señales de
   priorización y criterios de calificación accionables.
-user-invokable: true
+user-invocable: true
 ---
 
 # /icp-market — ICP & Market Sizing

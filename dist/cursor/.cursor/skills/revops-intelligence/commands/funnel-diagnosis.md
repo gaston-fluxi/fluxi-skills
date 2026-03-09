@@ -4,7 +4,7 @@ description: >
   Análisis completo del funnel de conversión de punta a punta: tasas por etapa,
   puntos de caída, time-in-stage, comparación con benchmarks y recomendaciones
   específicas por etapa problemática.
-user-invokable: true
+user-invocable: true
 ---
 
 # /funnel-diagnosis — Funnel Diagnosis

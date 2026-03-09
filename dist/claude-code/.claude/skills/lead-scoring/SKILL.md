@@ -4,7 +4,7 @@ description: >
   Construye o calibra un modelo de lead scoring multicritério: fit de ICP,
   señales de engagement, timing de compra y puntuación compuesta con umbrales
   de acción para SDRs y AEs.
-user-invokable: true
+user-invocable: true
 ---
 
 # /lead-scoring — Lead Scoring & Priorización
