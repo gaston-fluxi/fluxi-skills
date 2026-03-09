@@ -205,6 +205,56 @@ Para cada etapa problemática, el framework de causa raíz:
 
 ---
 
+## Ejemplo de Output
+
+```
+## Funnel Diagnosis
+Período: Q1 2025
+Basado en: 1.240 leads / 38 deals ganados
+
+### Resumen Ejecutivo
+La conversión global (3.1%) está dentro del benchmark, pero hay un cuello de botella
+crítico en Proposal → Won (18% vs. benchmark 25–45%). Se estima €480K de revenue
+perdido en Q1 por deals que llegaron a Proposal sin multithreading ni acceso al
+economic buyer. Acción de mayor impacto: implementar validación de economic buyer
+antes de pasar un deal a Proposal.
+
+### Conversión por Etapa
+| Etapa             | Entradas | Salidas | Conv. | Benchmark | Estado |
+|-------------------|----------|---------|-------|-----------|--------|
+| Lead → MQL        | 1.240    | 372     | 30%   | 20–35%    | OK     |
+| MQL → SQL         | 372      | 163     | 44%   | 30–50%    | OK     |
+| SQL → Opportunity | 163      | 98      | 60%   | 50–70%    | OK     |
+| Opp → Proposal    | 98       | 71      | 72%   | 60–80%    | OK     |
+| Proposal → Won    | 71       | 38      | 18%   | 25–45%    | CRITICO|
+| Overall           | 1.240    | 38      | 3.1%  | 1–5%      | OK     |
+
+### Cuello de Botella Principal
+Etapa: Proposal → Won
+Impacto en revenue: ~€480K perdido en Q1 (33 deals × ACV €14.5K promedio)
+Causa raíz: 74% de los deals en Proposal no tienen reunión con el economic buyer.
+El champion aprueba internamente, pero la decisión final se retrasa o se pierde sin
+visibilidad del decisor real.
+
+### Razones de Pérdida
+| Razón                   | % Deals | Revenue |
+|-------------------------|---------|---------|
+| No decision/Status quo  | 41%     | €197K   |
+| Competidor (precio)     | 27%     | €130K   |
+| Presupuesto congelado   | 19%     | €91K    |
+| Mal fit detectado tarde | 13%     | €62K    |
+
+### Acciones Priorizadas
+1. Agregar criterio de salida en Opportunity: "reunión con economic buyer confirmada"
+   antes de pasar a Proposal — Impacto: +8–12% en conv. P→W = +€180K/trimestre
+   Owner: Head of Sales — Deadline: inicio Q2
+2. Implementar multithreading check en deal reviews semanales — Owner: Sales Manager
+3. Revisar ICP: 13% de deals perdidos por mal fit detectado en Proposal indica
+   problema de calificación en SQL — Owner: RevOps
+```
+
+---
+
 ## Errores Comunes a Evitar
 
 - **Analizar el funnel como si fuera homogéneo** → siempre segmentar por fuente y por segmento

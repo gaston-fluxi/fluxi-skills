@@ -1,5 +1,8 @@
 # Fluxi Skills — RevOps Intelligence
 
+[![GitHub Stars](https://img.shields.io/github/stars/gaston-fluxi/fluxi-skills?style=flat-square&color=335FFA)](https://github.com/gaston-fluxi/fluxi-skills/stargazers)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-5DE1E6.svg?style=flat-square)](https://github.com/gaston-fluxi/fluxi-skills/blob/main/LICENSE)
+
 Skills de Revenue Operations para agentes de IA. Instala en Claude Code, Cursor, Gemini CLI, Codex CLI o VS Code Copilot/Kiro y obtén un analista de RevOps disponible en cualquier momento.
 
 ---
@@ -37,7 +40,7 @@ Cada skill incluye:
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/fluxilabs/fluxi-skills.git
+git clone https://github.com/gaston-fluxi/fluxi-skills.git
 
 # Copiar al directorio de skills de Claude
 cp -r dist/claude-code/.claude ~/.claude
@@ -113,6 +116,32 @@ Próxima reunión: viernes con el champion
 
 ---
 
+## Cómo generar dist/
+
+Los archivos en `dist/` ya están incluidos en el repositorio y listos para usar. Si modificás los skills en `source/` y necesitás regenerar:
+
+1. Asegurate de tener `bash` instalado (macOS/Linux: nativo; Windows: Git Bash o WSL)
+2. Dale permisos de ejecución al script si es necesario:
+   ```bash
+   chmod +x build.sh
+   ```
+3. Ejecutá desde la raíz del repositorio:
+   ```bash
+   ./build.sh
+   ```
+4. El script copia los archivos de `source/skills/` a cada uno de los cinco directorios en `dist/`:
+   - `dist/claude-code/.claude/skills/`
+   - `dist/cursor/.cursor/skills/`
+   - `dist/gemini/.gemini/skills/`
+   - `dist/codex/.codex/skills/`
+   - `dist/agents/.agents/skills/`
+
+**Troubleshooting:**
+- `Permission denied` → ejecutá `chmod +x build.sh` primero
+- El script no modifica nada fuera de `dist/` — es seguro correrlo múltiples veces
+
+---
+
 ## Estructura del repositorio
 
 ```
@@ -152,6 +181,27 @@ Para proponer mejoras:
 3. Ejecutar `./build.sh` para regenerar `dist/`
 4. Pull request con descripción del cambio y justificación
 
+**Checklist para PRs:**
+- [ ] El framework sigue benchmarks RevOps estándar (con fuente)
+- [ ] Incluye al menos un ejemplo de output con datos ficticios realistas
+- [ ] No rompe compatibilidad con ninguno de los 5 agentes
+- [ ] Los cálculos y fórmulas están verificados
+
+---
+
+## Fuentes y Benchmarks
+
+Los benchmarks B2B SaaS incluidos en los skills están basados en:
+
+- **HubSpot State of Sales** (2024–2025)
+- **Salesforce State of Sales Report** (2024)
+- **SaaS benchmarks de Benchmarkit / RevOps Squared** (2024)
+- **Pipeline velocity y coverage ratio**: basado en distribución de deals en empresas SaaS con ACV €10K–€100K
+
+Los benchmarks varían por industria, ACV y modelo de venta — se presentan como referencia, no como verdad absoluta. Si ves datos desactualizados, abrí un PR con la fuente actualizada.
+
+Revisión programada: anual o cuando hay un cambio significativo en los benchmarks de la industria.
+
 ---
 
 ## Licencia
@@ -162,4 +212,4 @@ Libre para uso comercial, modificación y distribución.
 
 ---
 
-Hecho con criterio RevOps. [fluxilabs.com](https://fluxilabs.com)
+Hecho con criterio RevOps. [fluxilabs.com](https://fluxilabs.com) · [LinkedIn](https://www.linkedin.com/company/fluxilabs/)

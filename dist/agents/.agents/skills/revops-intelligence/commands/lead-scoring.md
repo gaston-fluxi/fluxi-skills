@@ -214,6 +214,69 @@ Para cada lead Tier A:
 
 ---
 
+## Ejemplo de Output
+
+```
+## Lead Scoring
+Modelo: Fit × 0.45 + Engagement × 0.35 + Timing × 0.20
+Leads evaluados: 12 | Período: semana del 3-mar-2025
+
+### Score Compuesto por Lead
+| Lead           | Empresa       | Fit | Engagement | Timing | Score | Tier | Acción              |
+|----------------|---------------|-----|-----------|--------|-------|------|---------------------|
+| Carla Ruiz     | Nexio HR      | 88  | 72        | 70     | 79    | 🔥 A | Contactar hoy       |
+| Diego Méndez   | Orbis Fintech | 82  | 65        | 30     | 69    | 🟡 B | Secuencia esta semana|
+| Laura Pons     | Stackly       | 70  | 80        | 20     | 66    | 🟡 B | Secuencia esta semana|
+| Tomás Aguilar  | Kero Sales    | 55  | 90        | 60     | 72    | 🔥 A | Contactar hoy       |
+| Mía Ferrer     | Velora        | 90  | 20        | 40     | 55    | 🟡 B | Secuencia esta semana|
+| Pablo Ríos     | Datova        | 40  | 45        | 20     | 37    | 🟠 C | Nurturing activo    |
+| Irene Castro   | Flusso        | 30  | 15        | 10     | 22    | ⬜ D | Solo automatizado   |
+
+### Detalle del Top 2 (Tier A)
+
+**Carla Ruiz — Nexio HR — Score: 79**
+- **Fit**: Industria HR Tech (top-2 de deals ganados), headcount 90 empleados, Carla
+  es Head of Sales Ops (champion tipo del ICP), pain de fragmentación de CRM declarado
+- **Engagement**: Visitó pricing page hace 3 días, descargó el ROI calculator, abrió
+  4 emails en la última semana
+- **Timing**: Ronda Seed hace 4 meses, nuevo VP Sales incorporado hace 6 semanas
+- **Próximo paso**: Llamada de 20 min para validar pain de integración — proponer demo
+  específica de flujos de RevOps para SaaS Series A
+
+**Tomás Aguilar — Kero Sales — Score: 72**
+- **Fit**: Industria SaaS B2B (parcial — vertical específico no mapeado aún), headcount
+  140, Tomás es Sales Ops Manager, pain presumible pero no declarado
+- **Engagement**: Solicitó demo inbound hace 2 días — señal de intención muy alta
+- **Timing**: Job posting de RevOps Analyst abierto → indicio de dolor activo
+- **Próximo paso**: Demo preparada con casos de uso de equipos similares en tamaño;
+  validar en los primeros 10 min si el pain es de reporting o de forecasting
+
+### Distribución del Portfolio
+| Tier | # Leads | % Total | Acción Recomendada        |
+|------|---------|---------|---------------------------|
+| 🔥 A | 2       | 17%     | Contacto en <2 horas hoy  |
+| 🟡 B | 3       | 25%     | Secuencia esta semana     |
+| 🟠 C | 1       | 8%      | Nurturing activo 30 días  |
+| ⬜ D | 1       | 8%      | Solo automatizado         |
+| Sin datos suficientes | 5 | 42% | Completar datos antes de clasificar |
+
+### ⚡ Acciones Inmediatas
+1. **Carla Ruiz / Nexio HR** — Score 79 — Visitó pricing + descargó ROI calculator
+   → intención alta — Owner: Sofía (SDR) — Deadline: hoy antes de las 12hs
+2. **Tomás Aguilar / Kero Sales** — Score 72 — Demo request inbound hace 48hs
+   → SLA vencido — Owner: Sofía (SDR) — Deadline: llamar ahora
+
+### 🚨 Alertas
+- Tomás Aguilar solicitó una demo hace 48 horas y aún no fue contactado — SLA Tier A
+  incumplido (objetivo: <2 horas). Impacto directo en win rate de inbound
+- 5 de 12 leads no tienen datos suficientes para clasificar (sin industria o sin cargo
+  validado en CRM) → enriquecer con Apollo o LinkedIn antes de poner en secuencia
+- Mía Ferrer tiene Fit 90 pero Engagement 20 — no contactar aún; incluir en nurturing
+  de contenido técnico hasta que active señales de intención
+```
+
+---
+
 ## Errores Comunes a Evitar
 
 - **Puntuar solo por engagement** sin fit → genera trabajo para SDRs que termina en Closed-Lost por mal ICP

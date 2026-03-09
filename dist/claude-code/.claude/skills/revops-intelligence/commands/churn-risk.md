@@ -198,6 +198,58 @@ Ordenar las acciones de retención por ARR en riesgo, no solo por health score. 
 
 ---
 
+## Ejemplo de Output
+
+```
+## Churn Risk Assessment
+Fecha: marzo 2025
+Portafolio analizado: 34 cuentas / ARR total: €1.12M
+
+### Resumen Ejecutivo
+€218K de ARR en riesgo alto o crítico. Dos cuentas representan el 71% de ese riesgo:
+Lúmina (€92K, champion que renunció + uso caído 52%) y Nortek (€63K, NPS 3, evaluando
+competidor). Acción urgente: executive outreach a ambas antes del viernes.
+
+### Overview del Portafolio
+| Segmento       | # Cuentas | ARR     | % Total | ARR en Riesgo |
+|----------------|-----------|---------|---------|---------------|
+| 🔴 Alto Riesgo | 4         | €218K   | 19%     | €152K         |
+| 🟡 Riesgo Medio| 9         | €340K   | 30%     | €102K         |
+| 🟢 Bajo Riesgo | 21        | €562K   | 51%     | €28K          |
+| **Total**      | **34**    | **€1.12M** | **100%** | **€282K**  |
+
+### 🔴 Cuentas de Alto Riesgo (acción inmediata)
+| Cuenta  | ARR   | Renov.  | Health | Señal Principal                        | Próxima Acción                         | Owner  |
+|---------|-------|---------|--------|----------------------------------------|----------------------------------------|--------|
+| Lúmina  | €92K  | Jun-25  | 28/100 | Champion (VP Ops) renunció hace 15 días| Executive call esta semana + mapeo de stakeholders | Ana G. |
+| Nortek  | €63K  | Abr-25  | 31/100 | NPS 3 + mencionó evaluación de Gainsight | Competitive response + QBR urgente   | Mateo R.|
+| Finsur  | €38K  | May-25  | 37/100 | Uso caído 41% en 45 días               | Check-in de CSM + audit de adopción    | Ana G. |
+| Cobrex  | €25K  | May-25  | 34/100 | Sin login del decisor en 22 días       | Email directo del CEO                  | Mateo R.|
+
+### Health Scores por Dimensión (cuentas en riesgo)
+| Cuenta  | Uso | Engagement | Adopción | Satisfac. | Expansión | Total  |
+|---------|-----|-----------|---------|----------|----------|--------|
+| Lúmina  | 0   | 7          | 14       | 0         | 7         | 28/100 |
+| Nortek  | 10  | 14         | 8        | 0         | 0         | 31/100 |
+| Finsur  | 0   | 14         | 14       | 8         | 0         | 37/100 |
+
+### ⚡ Acciones Priorizadas (por ARR en riesgo)
+1. **Lúmina — €92K ARR** — Executive call CEO→CEO + mapa de nuevos stakeholders
+   Owner: Ana G. + CRO — Deadline: viernes 14-mar
+2. **Nortek — €63K ARR** — Competitive response deck + QBR de valor con nuevo DM
+   Owner: Mateo R. — Deadline: lunes 17-mar
+3. **Finsur — €38K ARR** — Auditoría de adopción + sesión de re-onboarding
+   Owner: Ana G. — Deadline: semana del 17-mar
+
+### 🚨 Alertas Críticas
+- Lúmina renueva en <90 días y el champion salió: riesgo de churn sin interlocutor claro
+- Nortek renovación en 45 días con NPS 3 → ventana de acción muy estrecha
+- 3 de 4 cuentas en riesgo alto tienen el mismo problema: caída de adopción de features
+  de integración → revisar si hay un problema de producto o de onboarding sistemático
+```
+
+---
+
 ## Errores Comunes a Evitar
 
 - **Medir solo el NPS** sin datos de uso → el NPS puede ser positivo en cuentas que están buscando alternativas

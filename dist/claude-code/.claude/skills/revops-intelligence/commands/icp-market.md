@@ -203,6 +203,79 @@ Top triggers de compra a monitorear:
 
 ---
 
+## Ejemplo de Output
+
+```
+## Análisis ICP + Market Sizing
+Fecha: febrero 2025
+Basado en: 67 deals ganados (últimos 18 meses)
+
+### Resumen Ejecutivo
+El cliente ideal es un B2B SaaS de 50–200 empleados en Series A–B, con un VP Sales o
+Head of Revenue que sufre caos operacional por crecimiento rápido. El win rate en este
+segmento es 44% — el doble que fuera de él. El SOM para los próximos 12 meses es
+~€3.8M con el equipo actual.
+
+### ICP Primario
+| Criterio      | Descripción                                          |
+|---------------|------------------------------------------------------|
+| Industria     | B2B SaaS — HR Tech, Fintech, PropTech                |
+| Tamaño        | 50–200 empleados                                     |
+| Stage         | Series A o Series B (funding <18 meses)              |
+| Buyer (DM)    | VP Sales, Head of Revenue, CRO                       |
+| Champion      | Sales Ops Manager o RevOps Manager                   |
+| ACV promedio  | €18–28K ARR                                          |
+| Sales cycle   | 21–32 días                                           |
+| Win rate      | 44%                                                  |
+| LTV estimado  | €62K / 3.4 años promedio de retención                |
+| Fuente top    | Referral (win rate 58%) > Outbound (41%) > Inbound (19%) |
+
+### ICP Secundario
+| Criterio  | Descripción                                                  |
+|-----------|--------------------------------------------------------------|
+| Industria | B2B SaaS — AgTech, EdTech, vertical software                 |
+| Tamaño    | 200–500 empleados                                            |
+| Stage     | Series B–C                                                   |
+| Buyer     | Director of Sales Operations o VP of GTM                     |
+| ACV       | €30–50K                                                      |
+| Win rate  | 26% — ciclo más largo (45–65 días), más stakeholders         |
+
+### Segmentos a Evitar
+- **eCommerce / D2C**: win rate 9%, ciclo promedio 78 días — CAC insostenible
+- **Enterprise >1.000 empleados**: ciclo >6 meses, win rate 11% — no tenemos fit de producto
+- **Non-SaaS / empresas tradicionales**: bajo NPS post-venta, churn >40% a 12 meses
+
+### 📐 Market Sizing
+| Métrica  | Estimación          | Metodología                                             |
+|----------|---------------------|---------------------------------------------------------|
+| TAM      | €2.4B / ~96.000 emp.| B2B SaaS 50–500 emp. en Europa Occidental × ACV €25K   |
+| SAM      | €420M / ~16.800 emp.| España, LATAM hispanohablante, stack en inglés o español|
+| SOM 12m  | €3.8M / ~190 emp.   | 4 AEs × 4 deals/mes × 44% win rate × €22K ACV × 12m   |
+
+### Scorecard de Calificación
+- ✅ Industria SaaS B2B con modelo de ventas de 2+ personas — sin esto, no avanzar
+- ✅ Champion en rol de Sales Ops, RevOps o VP Sales con pain declarado
+- ⚠️ Headcount 50–500 — por debajo de 30 o encima de 1.000, calificar con cautela
+- ⚠️ Funding en últimos 18 meses O expansión de headcount >15% YoY
+- 💡 Stack con HubSpot o Salesforce — integración nativa acelera el deal 30%
+- 💡 Referido por un cliente actual — win rate 58% vs. 41% en outbound
+
+### ⚡ Señales de Priorización
+1. **Contratación de VP Sales o Head of RevOps** — el nuevo líder quiere impactar rápido,
+   ventana de 30–60 días desde la contratación (detectar en LinkedIn Jobs)
+2. **Ronda de inversión en los últimos 6 meses** — presupuesto disponible + presión
+   de crecimiento → urgencia real de operar mejor
+3. **Job posting de Sales Ops abierto** — la empresa declara públicamente que tiene el pain
+
+### 🚨 Alertas
+- El 31% del pipeline actual es de empresas fuera del ICP primario y secundario →
+  posible drift por presión de volumen en SDRs. Revisar criterios de calificación
+- El SOM de €3.8M asume 100% de capacidad del equipo — incluir buffer del 20% por ramp
+  de nuevos AEs → SOM real conservador: €3.1M
+```
+
+---
+
 ## Errores Comunes a Evitar
 
 - **Definir el ICP por intuición** en lugar de datos de deals ganados
